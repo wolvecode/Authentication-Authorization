@@ -6,6 +6,7 @@ const path = require('path')
 const app = express()
 const port = 8000
 
+// setup for body-parser module
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
@@ -22,10 +23,10 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
-//setup for laoding static resources from 'public' diresctory
+// setup for loading static resources from 'public' directory
 app.use(express.static(path.join(__dirname, 'public')))
 
-//view engine setup
+// view engine setup
 app.set('view engine', 'pug')
 
 app.set('views', path.join(__dirname, 'views'))
