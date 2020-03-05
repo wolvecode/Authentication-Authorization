@@ -2,7 +2,7 @@ const LocalStrategy = require('passport-local').Strategy
 
 module.exports = (app, passport) => {
   app.get('/', (req, res) => {
-    res.send('Go to http://localhost:8000/login to login')
+    res.flash('login on the login page')
   })
 
   app.get('/dashboard', isLoggedIn, (req, res) => {

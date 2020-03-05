@@ -4,8 +4,9 @@ const bodyParser = require('body-parser')
 const passport = require('passport')
 const path = require('path')
 const app = express()
+const flash = require('connect-flash')
+const cookieParser = require('cookie-parser')
 const port = 8000
-
 // setup for body-parser module
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
