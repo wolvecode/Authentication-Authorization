@@ -1,14 +1,17 @@
 const express = require('express')
 const session = require('express-session')
+const mongoose = require('mongoose')
+const path = require('path')
+const expressVal = require('express-validator')
 const bodyParser = require('body-parser')
 const passport = require('passport')
-const path = require('path')
 const app = express()
 const flash = require('connect-flash')
 const cookieParser = require('cookie-parser')
 const port = 8000
+const user = require('./routes/index')
 // setup for body-parser module
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 // express session middleware setup
@@ -32,6 +35,10 @@ app.set('view engine', 'pug')
 
 app.set('views', path.join(__dirname, 'views'))
 
-require('./routes/index')(app, passport)
+// require('./routes/index')(app, passport)
+
+//Validating userController on Register
+app.use(expressVal())
+app.use('/', user)
 
 app.listen(port, () => console.log(`Server is running on port ${port}`))
