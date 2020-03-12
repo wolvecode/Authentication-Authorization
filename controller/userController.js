@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 
 exports.loginForm = (req, res) => {
-  res.render('login', { title: 'login' })
+  res.render('login', { title: 'Login' })
 }
 
 exports.registerForm = (req, res) => {
-  res.render('register', { title: 'register' })
+  res.render('register', { title: 'Register' })
 }
 
 exports.validateRegister = function(req, res, next) {
@@ -29,7 +29,7 @@ exports.validateRegister = function(req, res, next) {
       errors.map(err => err.msg)
     )
     res.render('register', {
-      title: 'register',
+      title: 'Register',
       body: req.body,
       flashes: req.flash()
     })
