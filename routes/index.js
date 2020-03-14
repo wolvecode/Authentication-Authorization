@@ -5,10 +5,15 @@ const router = express.Router()
 
 router.get('/login', userController.loginForm)
 router.get('/register', userController.registerForm)
+
 //validate
 //regsiter the user
 //login on register
-router.post('/register', userController.validateRegister)
+router.post(
+  '/register',
+  userController.validateRegister,
+  userController.register
+)
 
 module.exports = router
 

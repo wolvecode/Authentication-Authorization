@@ -2,28 +2,34 @@ const express = require('express')
 const session = require('express-session')
 const mongoose = require('mongoose')
 const path = require('path')
-const expressVal = require('express-validator')
+const MongoStore = require('connect-mongo')(session)
+const expressValidator = require('express-validator')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const app = express()
 const flash = require('connect-flash')
 const cookieParser = require('cookie-parser')
-const port = 8000
+
 const user = require('./routes/index')
+const port = 8000
+
 // setup for body-parser module
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-// express session middleware setup
+//Flashing messages unto request object.
 app.use(
   session({
-    secret: 'W$q4=25*8%v-}UV',
-    resave: true,
-    saveUninitialized: true
+    secret: 'secret123',
+    saveUninitialized: true,
+    resave: true
   })
 )
+app.use(flash())
+// Parsing Cookies from request
+app.use(cookieParser())
 
-// passport middleware setup ( it is mandatory to put it after session middleware setup)
+// Register passport for authentication.
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -38,7 +44,7 @@ app.set('views', path.join(__dirname, 'views'))
 // require('./routes/index')(app, passport)
 
 //Validating userController on Register
-app.use(expressVal())
+app.use(expressValidator())
 app.use('/', user)
 
 app.listen(port, () => console.log(`Server is running on port ${port}`))
