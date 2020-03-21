@@ -1,50 +1,32 @@
 const express = require('express')
-const session = require('express-session')
 const mongoose = require('mongoose')
-const path = require('path')
-const MongoStore = require('connect-mongo')(session)
-const expressValidator = require('express-validator')
 const bodyParser = require('body-parser')
 const passport = require('passport')
+const routes = require('./routes/routes')
+const secureRoute = require('./routes/secureRoute')
 const app = express()
-const flash = require('connect-flash')
-const cookieParser = require('cookie-parser')
+const userModel = require('./model/User')
 
-const user = require('./routes/index')
-const port = 8000
+mongoose.connect('mongodb://127.0.0.1:27017/passport-jwt', {
+  useMongoClient: true
+})
+mongoose.connection.on('error', error => console.log(error))
+mongoose.Promise = global.Promise
 
-// setup for body-parser module
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+require('./auth/auth')
 
-//Flashing messages unto request object.
-app.use(
-  session({
-    secret: 'secret123',
-    saveUninitialized: true,
-    resave: true
-  })
-)
-app.use(flash())
-// Parsing Cookies from request
-app.use(cookieParser())
+app.use(bodyParser.urlencoded({ extended: false }))
 
-// Register passport for authentication.
-app.use(passport.initialize())
-app.use(passport.session())
+app.use('/', routes)
+//We plugin our jwt strategy as a middleware so only verified users can access this route
+app.use('/user', passport.authenticate('jwt', { session: false }), secureRoute)
 
-// setup for loading static resources from 'public' directory
-app.use(express.static(path.join(__dirname, 'public')))
+//Handle errors
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500)
+  res.json({ error: err })
+})
 
-// view engine setup
-app.set('view engine', 'pug')
-
-app.set('views', path.join(__dirname, 'views'))
-
-// require('./routes/index')(app, passport)
-
-//Validating userController on Register
-app.use(expressValidator())
-app.use('/', user)
-
-app.listen(port, () => console.log(`Server is running on port ${port}`))
+app.listen(3000, () => {
+  console.log('Server started')
+})
