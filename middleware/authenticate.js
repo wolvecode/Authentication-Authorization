@@ -1,9 +1,10 @@
 const localstrategy = require('passport-local').Strategy
 const passport = require('passport')
 const userModel = require('../model/User')
+const JWTstrategy = require('passport-jwt').Strategy
+const ExtractJWT = require('passport-jwt').ExtractJWT
 
 //Create a middlewate to handle the registration
-
 passport.use(
   'signup',
   new localstrategy(
@@ -31,7 +32,7 @@ passport.use(
   new localstrategy(
     {
       usernameField: 'email',
-      passwordField: password
+      passwordField: 'password'
     },
     async (email, password, done) => {
       try {
@@ -51,3 +52,19 @@ passport.use(
     }
   )
 )
+
+
+//This verifies that the token sent by the user is valid
+passport.use(new JWTstrategy({
+  //secret we used to sign our JWT
+  secretOrKey : 'top_secret',
+  //Users are exprected to send in token as part of parameter
+  jwtFromRequest : ExtractJWT.fromUrlQueryParameter('secret_token')
+}, async (token, done) => {
+  try {
+    //Pass the user details to the next middleware
+    return done(null, token.user);
+  } catch (error) {
+    done(error);
+  }
+}));
