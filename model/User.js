@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const validator = require('validator')
 const bcrypt = require('bcrypt')
 const Schema = mongoose.Schema
 
@@ -9,8 +8,7 @@ const userSchema = new Schema({
     unique: true,
     lowercase: true,
     required: true,
-    trim: true,
-    validate: [validator.isEmail, 'Invalid email address']
+    trim: true
   },
   password: {
     type: String,
@@ -35,3 +33,9 @@ userSchema.methods.isValidPassword = async function(password) {
 }
 const User = mongoose.model('User', userSchema)
 module.exports = User
+
+/*
+5e56a4b855738633bc80827b?secret_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+eyJhZG1pbiI6eyJfaWQiOiI1ZTcxMTBkYzUzZTJkODA0YTc2MWIyMjYiLCJlbWFpbCI6ImlmZWRveWluQGdtYWlsLmNvbSJ9LCJpYXQiOjE1ODQ0NjgyMDV9.
+u8BA7MsqQLjsAznmQQogOShXdXgs1n7ztjb_pPTFkYg
+ */

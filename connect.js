@@ -1,7 +1,11 @@
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://127.0.0.1:27017/passport-jwt', {
-  useMongoClient: true
-})
-mongoose.connection.on('error', error => console.log(error))
-mongoose.Promise = global.Promise
+//connection to the mongo database
+mongoose
+  .connect('mongodb://localhost/auth', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+  })
+  .then(() => console.log('connected to database'))
+  .catch(err => console.err('inavlid connection'))

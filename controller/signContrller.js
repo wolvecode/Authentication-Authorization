@@ -1,14 +1,12 @@
-const express = require('express')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
-const app = express
 
 //Register users
 exports.signup = passport.authenticate(
   'signup',
   { session: false },
   async (req, res, next) => {
-    res.send({ message: 'signup successful', user: req.user })
+    res.json({ message: 'signup successful', user: req.user })
   }
 )
 
