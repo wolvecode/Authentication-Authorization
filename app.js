@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use('/', routes)
 //We plugin our jwt strategy as a middleware so only verified users can access this route
-app.use('/user', passport.authenticate('jwt', { session: false }), secureRoute)
+app.use('/', passport.authenticate('jwt', { session: false }), secureRoute)
 
 //Handle errors
 app.use(function(err, req, res, next) {

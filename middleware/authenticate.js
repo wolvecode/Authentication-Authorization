@@ -34,16 +34,19 @@ passport.use(
     },
     async (email, password, done) => {
       try {
-        //find one email if exist
+        //Find the user associated with the email provided by the user
         const user = await User.findOne({ email })
         if (!user) {
-          done(null, false, { message: 'User not found' })
+          //If the user isn't found in the database, return a message
+          return done(null, false, { message: 'User not found' })
         }
-        const validate = await user.isValidPassword({ password })
+        //validate if the password entered by the user is equivalent to the password in the database 
+        const validate = await user.isValidPassword(password)
         if (!validate) {
-          return done(null, false, { message: 'Invalid password' })
+          return done(null, false, { message: 'Wrong Password' })
         }
-        return done(null, user, { message: 'Logged succesfully' })
+        //Send the user information to the next middleware
+        return done(null, user, { message: 'Logged in Successfully' })
       } catch (error) {
         return done(error)
       }
