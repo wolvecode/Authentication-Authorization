@@ -4,12 +4,13 @@ const passport = require('passport')
 const app = express()
 const routes = require('./routes/routes')
 const secureRoute = require('./routes/secureRoute')
+const User = require('./model/User')
 
 require('./connect')
+require('./middleware/authenticate')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.urlencoded({ extended: true }))
-require('./middleware/authenticate')
 
 app.use('/', routes)
 //We plugin our jwt strategy as a middleware so only verified users can access this route
