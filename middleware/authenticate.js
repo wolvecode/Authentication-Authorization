@@ -43,9 +43,9 @@ passport.use(
         if (!validate) {
           return done(null, false, { message: 'Invalid password' })
         }
-        return done(null, user, { message: 'Logged in succesful' })
-      } catch (err) {
-        return done(err)
+        return done(null, user, { message: 'Logged succesfully' })
+      } catch (error) {
+        return done(error)
       }
     }
   )
