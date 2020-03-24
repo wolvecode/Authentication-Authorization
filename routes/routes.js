@@ -2,14 +2,15 @@ const express = require('express')
 const jwt = require('jsonwebtoken')
 const passport = require('passport')
 const router = express.Router()
+// const { signup, login } = require('../controller/signContrller')
 
-//handle signup middleware from middleware-auth
+//handle middleware from middleware-authentication
 router.post(
   '/signup',
   passport.authenticate('signup', { session: false }),
   async (req, res, next) => {
     res.json({
-      message: 'Signup successfully',
+      message: 'Signup successful',
       user: req.user
     })
   }
@@ -34,5 +35,8 @@ router.post('/login', async (req, res, next) => {
     }
   })(req, res, next)
 })
+
+// router.post('/signup', signup)
+// router.post('/login', login)
 
 module.exports = router
