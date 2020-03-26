@@ -2,7 +2,6 @@ const localstrategy = require('passport-local').Strategy
 const passport = require('passport')
 const JWTstrategy = require('passport-jwt').Strategy
 const ExtractJWT = require('passport-jwt').ExtractJwt
-
 const User = require('../model/User')
 
 //Create a middlewate to handle the registration

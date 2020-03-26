@@ -4,7 +4,7 @@ const passport = require('passport')
 const router = express.Router()
 // const { signup, login } = require('../controller/signContrller')
 
-//handle middleware from middleware-authentication
+//handle middleware from middleware-authenticationZ
 router.post(
   '/signup',
   passport.authenticate('signup', { session: false }),
@@ -36,6 +36,12 @@ router.post('/login', async (req, res, next) => {
   })(req, res, next)
 })
 
+router.get('/', (req, res) => {
+  res.json({ message: 'try' })
+})
+router.post('/', (req, res) => {
+  res.json('Hello world')
+})
 // router.post('/signup', signup)
 // router.post('/login', login)
 

@@ -4,10 +4,9 @@ const passport = require('passport')
 const app = express()
 const routes = require('./routes/routes')
 const secureRoute = require('./routes/secureRoute')
-const User = require('./model/User')
 
 require('./connect')
-require('./middleware/authenticate')
+require('./middleware/auth')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.urlencoded({ extended: true }))
@@ -22,4 +21,5 @@ app.use(function(err, req, res, next) {
   res.json({ error: err })
 })
 
-module.exports = app
+const port = 4000
+app.listen(port, () => console.log(`Listening on port: ${port}`))
