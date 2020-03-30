@@ -10,11 +10,14 @@ passport.use(
   new localstrategy(
     {
       usernameField: 'email',
-      passwordField: 'password'
+      passwordField: 'password',
+      passReqToCallback: true,
+      session: false
     },
-    async (email, password, done) => {
+    async (req, email, password, done) => {
+      let fullName = req.body.fullName
       try {
-        const user = await User.create({ email, password })
+        const user = await User.create({ email, fullName, password })
         return done(null, user)
       } catch (error) {
         return done(error)
@@ -39,7 +42,7 @@ passport.use(
           //If the user isn't found in the database, return a message
           return done(null, false, { message: 'User not found' })
         }
-        //validate if the password entered by the user is equivalent to the password in the database 
+        //validate if the password entered by the user is equivalent to the password in the database
         const validate = await user.isValidPassword(password)
         if (!validate) {
           return done(null, false, { message: 'Wrong Password' })
